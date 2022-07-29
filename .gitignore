@@ -130,3 +130,6 @@ dmypy.json
 
 # For Mac
 .DS_Store
+
+# For Email and Password protection
+main.py
