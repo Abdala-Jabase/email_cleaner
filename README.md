@@ -1,2 +1,2 @@
 # email_cleaner
-The purpose of this project is to make a bot that can clean your emails, by deleting spam, expired promotions, etc.
+The purpose of this project is to make a bot that can clean your emails, by deleting emails that include a keywords that the user specifies. Currently it only works with Outlook based emails.
