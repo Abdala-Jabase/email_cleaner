@@ -51,10 +51,15 @@ mail = imaplib.IMAP4_SSL(SMTP_SERVER)
 
 mail.login(username, password)
 mail.select('inbox')
-status, messages =  mail.search(None, '(UNSEEN)') if deleteOnlyUnseen else mail.search(None, 'All')
+status, messages =  mail.search(None, '(UNSEEN)') if deleteOnlyUnseen else mail.search(None, 'ALL')
+
 # convert messages to a list of email IDs
-messages = messages[0].split(b' ')
-for message in messages:
+mail_ids = []
+
+for block in messages:
+    mail_ids += block.split()
+
+for message in mail_ids:
     
     _, msg = mail.fetch(message, "(RFC822)")
 
