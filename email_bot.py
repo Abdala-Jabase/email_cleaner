@@ -2,8 +2,25 @@ import imaplib
 import email
 from email.header import decode_header
 
+username = ''
+password = ''
 
-def decideToRemove(s: str) -> bool:
+# Greeting Method runs in the beginning of program to collect user info and decide whether to use from, subject or both, and stores keywords for from subject or both
+def greeting() -> None:
+    global username, password
+    username = input('Username: ')
+    password = input('Password: ')
+
+# Decides whether to delete email based on subject and list of keywords collected
+def decideSubject(subject: str) -> bool:
+    return True
+
+# Decides whether to delete email based on sender and list of keywords collected
+def decideFrom(sender: str) -> bool:
+    return True
+
+# Uses decideFrom and decideSubject to decide whether a email should be deleted
+def decideToRemove(sender: str, subject: str) -> bool:
     return True
 
 SMTP_SERVER = "imap-mail.outlook.com"
@@ -11,8 +28,7 @@ mail_from = ''
 mail_subject = ''
 mail_content = ''
 mail = imaplib.IMAP4_SSL(SMTP_SERVER)
-username = input('Username: ')
-password = input('Password: ')
+
 mail.login(username, password)
 mail.select('inbox')
 status, messages = mail.search(None, '(UNSEEN)')
