@@ -51,7 +51,7 @@ mail = imaplib.IMAP4_SSL(SMTP_SERVER)
 
 mail.login(username, password)
 mail.select('inbox')
-status, messages =  mail.search(None, '(UNSEEN)') if deleteOnlyUnseen else mail.search(None, 'All')
+status, messages = mail.search(None, '(UNSEEN)') if deleteOnlyUnseen else mail.search(None, 'All')
 # convert messages to a list of email IDs
 messages = messages[0].split(b' ')
 for message in messages:
