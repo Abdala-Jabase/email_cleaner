@@ -39,6 +39,10 @@ def greeting() -> None:
         senderKeyword = ''
         while senderKeyword != '...':
             senderKeyword = input('Add: ').lower()
+            if senderKeyword[0] != ' ':
+                senderKeyword = ' ' + senderKeyword
+            if senderKeyword[len(senderKeyword)-1] != ' ':
+                senderKeyword = senderKeyword + ' '
             senderKeywords[senderKeyword] = 0
     subQBool = True
     while subQBool:
@@ -62,6 +66,10 @@ def greeting() -> None:
 
 # Decides whether to delete email based on subject and list of keywords collected
 def decideSubject(subject: str) -> bool:
+    if subject[0] != ' ':
+        subject = ' ' + subject
+    if subject[len(subject)-1] != ' ':
+        subject = subject + ' '
     subject = subject.lower()
     global useSubject
     if useSubject:
