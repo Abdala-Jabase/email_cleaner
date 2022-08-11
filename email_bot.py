@@ -27,7 +27,7 @@ def greeting() -> None:
             print('Incorrect input, please try again...')
     sendQBool = True
     while sendQBool:
-        senderQ = input('Would you like to use sender email to delete emails? Reply with y or n')
+        senderQ = input('Would you like to use sender email to delete emails? Reply with "y" or "n" ')
         if senderQ == 'y':
             sendQBool = False
         elif senderQ == 'n':
@@ -43,7 +43,7 @@ def greeting() -> None:
             senderKeywords[senderKeyword] = 0
     subQBool = True
     while subQBool:
-        subQ = input('Would you like to use keywords in subjects to delete emails? Reply with y or n')
+        subQ = input('Would you like to use keywords in subjects to delete emails? Reply with "y" or "n" ')
         if subQ == 'y':
             subQBool = False
         elif subQ == 'n':
@@ -60,6 +60,7 @@ def greeting() -> None:
     username = input('Please input your email address: ')
     password = input('Please input your password: ')
 
+
 # Decides whether to delete email based on subject and list of keywords collected
 def decideSubject(subject: str) -> bool:
     global useSubject
@@ -72,10 +73,14 @@ def decideSubject(subject: str) -> bool:
 
 # Decides whether to delete email based on sender and list of keywords collected
 def decideFrom(sender: str) -> bool:
-    global useSender
+    global useSender, senderKeywords
     if useSender:
         # implement checking the sender
-        return True
+        for e in senderKeywords:
+            if e in sender:
+                senderKeywords[e] += 1
+                return True
+        return False
     else:
         return False
 
@@ -85,7 +90,11 @@ def decideFrom(sender: str) -> bool:
 def decideToRemove(sender: str, subject: str) -> bool:
     return decideFrom(sender) or decideSubject(subject)
 
+
+#### Script Starts ####
+
 greeting()
+
 SMTP_SERVER = "imap-mail.outlook.com"
 mail_from = ''
 mail_subject = ''
@@ -114,6 +123,7 @@ for message in mail_ids:
     if decideToRemove(mail_from, mail_subject):
         mail.store(message, "+FLAGS", "\\Deleted")
         print("Deleting", mail_subject)
+
 
 # from the selected mailbox (in this case, INBOX)
 mail.expunge()
