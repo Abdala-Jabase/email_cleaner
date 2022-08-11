@@ -90,7 +90,20 @@ def decideFrom(sender: str) -> bool:
 def decideToRemove(sender: str, subject: str) -> bool:
     return decideFrom(sender) or decideSubject(subject)
 
-
+# Uses the senderKeywords and subjectKeywords to print amount of emails deleted from each keyword or sender.
+def printDeletedSummary() -> None:
+    global senderKeywords, subjectKeywords
+    none = True
+    for key in senderKeywords:
+        if senderKeywords[key] > 0:
+            none = False
+            print(str(senderKeywords[key])+ ' emails from '+ key + ' were deleted.')
+    for key in subjectKeywords:
+        if subjectKeywords[key] > 0:
+            none = False
+            print(str(subjectKeywords[key])+ ' emails with keyword '+ key + ' in their subject were deleted.')
+    if none:
+        print('No emails were deleted.')
 #### Script Starts ####
 
 greeting()
@@ -131,3 +144,4 @@ mail.expunge()
 mail.close()
 # logout from the account
 mail.logout()
+printDeletedSummary()
