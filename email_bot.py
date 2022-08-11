@@ -1,7 +1,6 @@
 import imaplib
 import email
 from email.header import decode_header
-#testing my github
 username = ''
 password = ''
 
@@ -80,11 +79,6 @@ def decideSubject(subject: str) -> bool:
 def decideFrom(sender: str) -> bool:
     global useSender, senderKeywords
     if useSender:
-        # implement checking sender
-        global senderKeywords
-        for key in senderKeywords:
-            if key in sender:
-                senderKeywords[key] += 1
         # implement checking the sender
         for e in senderKeywords:
             if e in sender:
