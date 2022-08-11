@@ -27,7 +27,7 @@ def greeting() -> None:
             print('Incorrect input, please try again...')
     sendQBool = True
     while sendQBool:
-        senderQ = input('Would you like to use sender email to delete emails? Reply with y or n')
+        senderQ = input('Would you like to use sender email to delete emails? Reply with "y" or "n" ')
         if senderQ == 'y':
             sendQBool = False
         elif senderQ == 'n':
@@ -43,7 +43,7 @@ def greeting() -> None:
             senderKeywords[senderKeyword] = 0
     subQBool = True
     while subQBool:
-        subQ = input('Would you like to use keywords in subjects to delete emails? Reply with y or n')
+        subQ = input('Would you like to use keywords in subjects to delete emails? Reply with "y" or "n" ')
         if subQ == 'y':
             subQBool = False
         elif subQ == 'n':
@@ -59,6 +59,7 @@ def greeting() -> None:
             subjectKeywords[subjectKeyword] = 0
     username = input('Please input your email address: ')
     password = input('Please input your password: ')
+
 
 # Decides whether to delete email based on subject and list of keywords collected
 def decideSubject(subject: str) -> bool:
@@ -77,13 +78,17 @@ def decideSubject(subject: str) -> bool:
 
 # Decides whether to delete email based on sender and list of keywords collected
 def decideFrom(sender: str) -> bool:
-    global useSender
+    global useSender, senderKeywords
     if useSender:
         # implement checking sender
         global senderKeywords
         for key in senderKeywords:
             if key in sender:
                 senderKeywords[key] += 1
+        # implement checking the sender
+        for e in senderKeywords:
+            if e in sender:
+                senderKeywords[e] += 1
                 return True
         return False
     else:
@@ -95,7 +100,24 @@ def decideFrom(sender: str) -> bool:
 def decideToRemove(sender: str, subject: str) -> bool:
     return decideFrom(sender) or decideSubject(subject)
 
+# Uses the senderKeywords and subjectKeywords to print amount of emails deleted from each keyword or sender.
+def printDeletedSummary() -> None:
+    global senderKeywords, subjectKeywords
+    none = True
+    for key in senderKeywords:
+        if senderKeywords[key] > 0:
+            none = False
+            print(str(senderKeywords[key])+ ' emails from '+ key + ' were deleted.')
+    for key in subjectKeywords:
+        if subjectKeywords[key] > 0:
+            none = False
+            print(str(subjectKeywords[key])+ ' emails with keyword '+ key + ' in their subject were deleted.')
+    if none:
+        print('No emails were deleted.')
+#### Script Starts ####
+
 greeting()
+
 SMTP_SERVER = "imap-mail.outlook.com"
 mail_from = ''
 mail_subject = ''
@@ -126,9 +148,11 @@ for message in mail_ids:
         mail.store(message, "+FLAGS", "\\Deleted")
         print("Deleting", mail_subject)
 
+
 # from the selected mailbox (in this case, INBOX)
 mail.expunge()
 # close the mailbox
 mail.close()
 # logout from the account
 mail.logout()
+printDeletedSummary()
