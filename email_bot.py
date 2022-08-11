@@ -52,8 +52,8 @@ def greeting() -> None:
             print('Incorrect input, please try again...')
     if useSubject:
         print('Please enter keywords, that you would like emails whose subjects include to be deleted, when done enter "..." ')
-        senderKeyword = ''
-        while senderKeyword != '...':
+        subjectKeywords = ''
+        while subjectKeywords != '...':
             subjectKeyword = input('Add: ')
             subjectKeywords[subjectKeyword] = 0
     username = input('Please input your email address: ')
