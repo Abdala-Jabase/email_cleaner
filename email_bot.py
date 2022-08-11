@@ -38,7 +38,7 @@ def greeting() -> None:
         print('Please enter senders (names, emails, or companies), you would like to delete, when done enter "..." ')
         senderKeyword = ''
         while senderKeyword != '...':
-            senderKeyword = input('Add: ')
+            senderKeyword = input('Add: ').lower()
             senderKeywords[senderKeyword] = 0
     subQBool = True
     while subQBool:
@@ -52,9 +52,9 @@ def greeting() -> None:
             print('Incorrect input, please try again...')
     if useSubject:
         print('Please enter keywords, that you would like emails whose subjects include to be deleted, when done enter "..." ')
-        subjectKeywords = ''
-        while subjectKeywords != '...':
-            subjectKeyword = input('Add: ')
+        subjectKeyword = ''
+        while subjectKeyword != '...':
+            subjectKeyword = input('Add: ').lower()
             subjectKeywords[subjectKeyword] = 0
     username = input('Please input your email address: ')
     password = input('Please input your password: ')
@@ -62,6 +62,7 @@ def greeting() -> None:
 
 # Decides whether to delete email based on subject and list of keywords collected
 def decideSubject(subject: str) -> bool:
+    subject = subject.lower()
     global useSubject
     if useSubject:
         # implement checking the subject
@@ -77,6 +78,7 @@ def decideSubject(subject: str) -> bool:
 
 # Decides whether to delete email based on sender and list of keywords collected
 def decideFrom(sender: str) -> bool:
+    sender = sender.lower()
     global useSender, senderKeywords
     if useSender:
         # implement checking the sender
@@ -101,11 +103,11 @@ def printDeletedSummary() -> None:
     for key in senderKeywords:
         if senderKeywords[key] > 0:
             none = False
-            print(str(senderKeywords[key])+ ' emails from '+ key + ' were deleted.')
+            print(str(senderKeywords[key])+ ' emails from "'+ key + '" were deleted.')
     for key in subjectKeywords:
         if subjectKeywords[key] > 0:
             none = False
-            print(str(subjectKeywords[key])+ ' emails with keyword '+ key + ' in their subject were deleted.')
+            print(str(subjectKeywords[key])+ ' emails with keyword "'+ key + '" in their subject were deleted.')
     if none:
         print('No emails were deleted.')
 #### Script Starts ####
